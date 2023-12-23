@@ -9,6 +9,7 @@ int main()
     int y = 50;
 
     while(1){
+    setcolor(WHITE);
     line(0,400,tamanhoXMax,400);
 
     if(y >300){
