@@ -9,32 +9,32 @@ int main()
     int y = 50;
 
     while(1){
-    setcolor(WHITE);
-    line(0,400,tamanhoXMax,400);
-
-    if(y >300){
-        circle(50, 370, 30);
-    }
-    for(int i = y; i<370; i++){
         setcolor(WHITE);
-        circle(50, i, 30);
-        delay(1);
-        setcolor(BLACK);
-        circle(50, i, 30);
-
-
-
-    }
-    for(int j = 370; j>y; j--){
-        setcolor(WHITE);
-        circle(50, j, 30);
-        delay(1);
-        setcolor(BLACK);
-        circle(50, j, 30);
-
-
-    }
-    y += 50;
+        line(0,400,tamanhoXMax,400);
+    
+        if(y >300){
+            circle(50, 370, 30);
+        }
+        for(int i = y; i<370; i++){
+            setcolor(WHITE);
+            circle(50, i, 30);
+            delay(1);
+            setcolor(BLACK);
+            circle(50, i, 30);
+    
+    
+    
+        }
+        for(int j = 370; j>y; j--){
+            setcolor(WHITE);
+            circle(50, j, 30);
+            delay(1);
+            setcolor(BLACK);
+            circle(50, j, 30);
+    
+    
+        }
+        y += 50;
 
     }
 
