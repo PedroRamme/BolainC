@@ -5,64 +5,115 @@
 
 //GetAsyncKeyState(VK_UP)
 
-void paintCircle(int i, int color) {
-    setcolor(color);
-    circle(50, i, 30);
-}
+const int RAIO = 30;
+const int SPEED_VAR = 1;
+const int CHAO_Y = 400;
 
-void drawCircle(int i) {
-    paintCircle(i, WHITE);
-}
+void paintCircle(int posX, int posY, int color);
+void drawCircle(int posX, int posY);
+void eraseCircle(int posX, int posY);
+void updateCircle(int posX, int posY);
+void drawScenario(int x1, int y1, int x2, int y2);
+void init();
 
-void eraseCircle(int i) {
-    paintCircle(i, BLACK);
-}
-
-void updateCircle(int i) {
-    drawCircle(i);
-    delay(1);
-    eraseCircle(i);
-}
-
-
-void init() {
-    int gd = DETECT, gm;
-    initgraph(&gd, &gm, NULL);
-}
-
+/*
+ INICIO
+*/
 int main()
 {
     init();
 
     int tamanhoXMax = getmaxx();
-    int y = 50;
-    int d = 1;
+    int tamanhoYMax = getmaxy();
+    int posY = 50;
+    int posX = 50;
+    int speed = 0;
+    int indoParaBaixo = 1;
+
+    cleardevice();
+    drawScenario(0,CHAO_Y,tamanhoXMax,CHAO_Y);
 
 
-    setcolor(WHITE);
-    line(0,400,tamanhoXMax,400);
+    while(true) {
 
-    while(true){
 
-        if(y >300){
-            drawCircle(y);
+
+        if(GetAsyncKeyState(VK_SPACE)){
+            break;
         }
 
-        for(int i = y; i<370; i++){
-            updateCircle(i);
+        if(GetAsyncKeyState(VK_RIGHT)){
+            //aumentar a velocidade para a direita
+            //se bater na parede, inverte a direção mas mantem a velocidade.
+            //posX = posX + 100;
+        }
+        if(GetAsyncKeyState(VK_LEFT)){
+            //aumentar a velocidade para a esquerda
+            //posX = posX - 100;
         }
 
 
-        for(int i= 370; i>y; i--){
-            updateCircle(i);
+        //Aumenta velocidade se estiver indo pra baixo ou diminui se estiver indo pra cima (pois foi multiplicado por -1)
+        speed = speed + (SPEED_VAR * indoParaBaixo);
+
+        printf("%i - %i - %i \n", posY, speed, (posY + speed));
+
+        // Incrementa posição no Y
+        posY = posY + (speed * indoParaBaixo);
+
+
+
+        //Se chegou no fundo
+        if (posY >= (CHAO_Y - RAIO)) {
+            indoParaBaixo = -1;
+            posY = CHAO_Y - RAIO;
         }
 
-        y += 50;
+        //Se zerou a velocidade
+        if (speed <= 0) {
+            indoParaBaixo = 1;
+        }
+
+        updateCircle(posX, posY);
 
     }
-    printf("saiu");
-    delay(500000);
+//    delay(5000);
     closegraph();
     return 0;
+
 }
 
+
+
+
+
+void updateCircle(int posX, int posY) {
+    drawCircle(posX, posY);
+    delay(33);
+    eraseCircle(posX, posY);
+}
+
+void drawCircle(int posX, int posY) {
+    paintCircle(posX, posY, WHITE);
+}
+
+void eraseCircle(int posX, int posY) {
+    paintCircle(posX, posY, BLACK);
+}
+
+void paintCircle(int posX, int posY, int color) {
+    setcolor(color);
+    circle(posX, posY, RAIO);
+    line(posX, posY, posX + 1, posY + 1);
+}
+
+
+
+void drawScenario(int x1, int y1, int x2, int y2){
+    line(x1, y1, x2, y2);
+}
+
+void init() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, NULL);
+}
