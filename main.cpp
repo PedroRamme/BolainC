@@ -8,12 +8,11 @@
 const int RAIO = 30;
 const int SPEED_VAR = 2;
 const int CHAO_Y = 650;
-int HORIZONTAL_SPEED = 0;
 void paintCircle(int posX, int posY, int color);
 void drawCircle(int posX, int posY);
 void eraseCircle(int posX, int posY);
 void updateCircle(int posX, int posY);
-void atualizaVelocidadeHorizontal();
+void atualizaVelocidadeHorizontal(int &horizontal_speed);
 void drawScenario(int x1, int y1, int x2, int y2);
 void init();
 
@@ -31,6 +30,7 @@ int main()
     int posX = 50;
     int speed = 0;
     int indoParaBaixo = 1;
+    int horizontal_speed = 0;
 
 
     cleardevice();
@@ -44,7 +44,7 @@ int main()
             break;
         }
 
-        atualizaVelocidadeHorizontal();                         // Aumenta a velocidade horizontal caso as teclas RIGHT ou LEFT forem precionadas
+        atualizaVelocidadeHorizontal(horizontal_speed);         // Aumenta a velocidade horizontal caso as teclas RIGHT ou LEFT forem precionadas
 
         speed = speed + (SPEED_VAR * indoParaBaixo);            // Aumenta velocidade se estiver indo pra baixo ou diminui se estiver indo pra cima (pois foi multiplicado por -1)
 
@@ -60,11 +60,11 @@ int main()
         {
             indoParaBaixo = 1;
         }
-        posX = posX + HORIZONTAL_SPEED;
-
+        posX = posX + horizontal_speed;
+        printf("%i\n", horizontal_speed);
         if(posX >= tamanhoXMax - RAIO || posX <= 0 + RAIO){     // Se bateu nas bordas da tela, inverte a direcao
 
-            HORIZONTAL_SPEED = -HORIZONTAL_SPEED;
+            horizontal_speed = -horizontal_speed;
         }
 
         updateCircle(posX, posY);
@@ -100,13 +100,14 @@ void paintCircle(int posX, int posY, int color)
     circle(posX, posY, RAIO);
     line(posX, posY, posX + 1, posY + 1);
 }
-void atualizaVelocidadeHorizontal(){
+void atualizaVelocidadeHorizontal(int &horizontal_speed){
 
     if(GetAsyncKeyState(VK_RIGHT)){
-        HORIZONTAL_SPEED = HORIZONTAL_SPEED + 2;
+        horizontal_speed = horizontal_speed + 2;
+
     }
     if(GetAsyncKeyState(VK_LEFT)){
-        HORIZONTAL_SPEED = HORIZONTAL_SPEED - 2;
+        horizontal_speed = horizontal_speed - 2;
     }
 
 }
