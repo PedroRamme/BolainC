@@ -20,6 +20,7 @@ void init();
 /*
  INICIO
 */
+
 int main()
 {
     init();
@@ -43,118 +44,38 @@ int main()
             break;
         }
 
-        if (GetAsyncKeyState(VK_RIGHT))
-        {
-            // aumentar a velocidade para a direita
-            // se bater na parede, inverte a direção mas mantem a velocidade.
-            HORIZONTAL_SPEED = 2;
+        atualizaVelocidadeHorizontal();                         // Aumenta a velocidade horizontal caso as teclas RIGHT ou LEFT forem precionadas
 
-            while(HORIZONTAL_SPEED != 0){
+        speed = speed + (SPEED_VAR * indoParaBaixo);            // Aumenta velocidade se estiver indo pra baixo ou diminui se estiver indo pra cima (pois foi multiplicado por -1)
 
-                posX = posX + HORIZONTAL_SPEED;
+        posY = posY + (speed * indoParaBaixo);                  // Incrementa posição no Y
 
-                atualizaVelocidadeHorizontal();
-
-                if(posX >= tamanhoXMax - RAIO || posX <= 0 + RAIO){
-
-                    HORIZONTAL_SPEED = -HORIZONTAL_SPEED;
-                }
-
-
-
-                speed = speed + (SPEED_VAR * indoParaBaixo);
-
-
-                posY = posY + (speed * indoParaBaixo);
-
-                // Se chegou no fundo
-                if (posY >= (CHAO_Y - RAIO))
-                {
-                    indoParaBaixo = -1;
-                    posY = CHAO_Y - RAIO;
-                }
-
-                // Se zerou a velocidade
-                if (speed <= 0)
-                {
-                    indoParaBaixo = 1;
-                }
-
-                updateCircle(posX, posY);
-                }
-                }
-        if (GetAsyncKeyState(VK_LEFT))
-        {
-            // aumentar a velocidade para a direita
-            // se bater na parede, inverte a direção mas mantem a velocidade.
-            HORIZONTAL_SPEED = -2;
-
-            while(HORIZONTAL_SPEED != 0){
-
-                posX = posX + HORIZONTAL_SPEED;
-
-                atualizaVelocidadeHorizontal();
-
-                if(posX <= 0+ RAIO || posX >= tamanhoXMax - RAIO){
-
-                    HORIZONTAL_SPEED = -HORIZONTAL_SPEED;
-                }
-
-
-                speed = speed + (SPEED_VAR * indoParaBaixo);
-
-        // Incrementa posição no Y
-                posY = posY + (speed * indoParaBaixo);
-
-                // Se chegou no fundo
-                if (posY >= (CHAO_Y - RAIO))
-                {
-                    indoParaBaixo = -1;
-                    posY = CHAO_Y - RAIO;
-                }
-
-                // Se zerou a velocidade
-                if (speed <= 0)
-                {
-                    indoParaBaixo = 1;
-                }
-
-                updateCircle(posX, posY);
-
-
-        }
-        }
-
-        // printf("%i - %i\n", posX, i);
-        // }
-
-
-
-        // Aumenta velocidade se estiver indo pra baixo ou diminui se estiver indo pra cima (pois foi multiplicado por -1)
-        speed = speed + (SPEED_VAR * indoParaBaixo);
-
-        // Incrementa posição no Y
-        posY = posY + (speed * indoParaBaixo);
-
-        // Se chegou no fundo
-        if (posY >= (CHAO_Y - RAIO))
+        if (posY >= (CHAO_Y - RAIO))                            // Se chegou no fundo
         {
             indoParaBaixo = -1;
             posY = CHAO_Y - RAIO;
         }
 
-        // Se zerou a velocidade
-        if (speed <= 0)
+        if (speed <= 0)                                         // Se zerou a velocidade
         {
             indoParaBaixo = 1;
         }
+        posX = posX + HORIZONTAL_SPEED;
+
+        if(posX >= tamanhoXMax - RAIO || posX <= 0 + RAIO){     // Se bateu nas bordas da tela, inverte a direcao
+
+            HORIZONTAL_SPEED = -HORIZONTAL_SPEED;
+        }
 
         updateCircle(posX, posY);
+
     }
     //    delay(5000);
     closegraph();
     return 0;
 }
+
+
 
 void updateCircle(int posX, int posY)
 {
