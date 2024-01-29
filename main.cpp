@@ -113,6 +113,7 @@ void atualizaVelocidadeHorizontal(int &horizontal_speed){
 }
 void drawScenario(int x1, int y1, int x2, int y2)
 {
+    setcolor(GREEN);
     line(x1, y1, x2, y2);
 }
 
