@@ -52,11 +52,11 @@ int main()
 
         if (posY >= (CHAO_Y - RAIO))                            // Se chegou no fundo
         {
-            speed = speed - SPEED_VAR;
+            speed = speed - SPEED_VAR;                          // Para que a velocidade inicial da subida seja a mesma da velocidade final da descida
             indoParaBaixo = -1;
             posY = CHAO_Y - RAIO;
 
-            if (speed <= 0){
+            if (speed <= 0){                                    // Para que a bola pare de quicar
                 speed = 0;
             }
         }
